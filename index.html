@@ -1,0 +1,127 @@
+<!doctype html><html><head><meta charset=utf8><meta name="robots" content="noindex,nofollow"><meta name="format-detection" content="telephone=no"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>科目A 用語帳 目次</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+/* Layout: 1列の目次。上に見出し、3冊の背表紙カード、使い方の手順、ページの見方、注意事項 */
+:root{
+  --bg:#f5f4f1; --card:#fdfcfa; --fg:#25221f; --muted:#67615a; --line:#e2ddd6;
+  --tech:#2b5fa8; --tech-soft:#e1eaf7; --mgmt:#2c7a4b; --mgmt-soft:#dff0e4; --strat:#d9631e; --strat-soft:#fbe6d6;
+  --key:#1f6b5c; --key-soft:#dcefe9; --warn:#a33a2c; --warn-soft:#f8e1dc;
+  --display:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
+  --body:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1a1917; --card:#24221f; --fg:#efebe5; --muted:#ada59b; --line:#38342f;
+  --tech:#8fb4ee; --tech-soft:#1e2a3d; --mgmt:#6fcf94; --mgmt-soft:#1e3527; --strat:#f08a4b; --strat-soft:#3d2a1e;
+  --key:#6fcfb6; --key-soft:#1d3530; --warn:#f0907f; --warn-soft:#3b2420; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1a1917; --card:#24221f; --fg:#efebe5; --muted:#ada59b; --line:#38342f;
+  --tech:#8fb4ee; --tech-soft:#1e2a3d; --mgmt:#6fcf94; --mgmt-soft:#1e3527; --strat:#f08a4b; --strat-soft:#3d2a1e;
+  --key:#6fcfb6; --key-soft:#1d3530; --warn:#f0907f; --warn-soft:#3b2420; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.7}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px;display:grid;gap:32px}
+header{display:grid;gap:6px}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--muted);font-weight:700}
+h1{font-family:var(--display);font-weight:900;font-size:30px;line-height:1.3;margin:0;text-wrap:balance}
+.lead{color:var(--muted);font-size:14px;margin:0}
+h2{font-family:var(--display);font-size:20px;margin:0 0 12px;text-wrap:balance}
+.books{display:grid;gap:14px}
+.book{display:grid;grid-template-columns:14px 1fr;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit}
+.book:focus-visible{outline:3px solid var(--key);outline-offset:2px}
+.spine{background:var(--c)}
+.book-body{padding:14px 16px;display:grid;gap:8px;min-width:0}
+.book-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.book h3{font-family:var(--display);font-size:22px;margin:0;color:var(--c)}
+.book h3 small{font-size:14px;color:var(--muted);font-family:var(--body);font-weight:700;margin-right:6px}
+.num{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.num b{color:var(--fg);font-size:16px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.tags li{font-size:12px;padding:2px 10px;border-radius:999px;background:var(--cs);color:var(--c);font-weight:700}
+.open{justify-self:start;font-size:14px;font-weight:700;color:var(--c);display:flex;gap:4px;align-items:center}
+.book:hover .open{text-decoration:underline}
+.t{--c:var(--tech);--cs:var(--tech-soft)} .m{--c:var(--mgmt);--cs:var(--mgmt-soft)} .s{--c:var(--strat);--cs:var(--strat-soft)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--key-soft);color:var(--key);font-family:var(--display);font-weight:900;display:grid;place-items:center}
+.steps b{display:block;font-size:15px}
+.steps span{font-size:14px;color:var(--muted)}
+.legend{display:grid;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.row{display:grid;grid-template-columns:5.6em 1fr;gap:10px;font-size:14px;align-items:start}
+.lab{font-size:12px;font-weight:700;letter-spacing:.06em;padding:2px 0;text-align:center;border-radius:6px;margin-top:2px}
+.l-goro{background:var(--strat-soft);color:var(--strat)} .l-mean{background:var(--line);color:var(--fg)} .l-key{background:var(--key-soft);color:var(--key)} .l-trap{background:var(--warn);color:var(--card)}
+.notes{margin:0;padding-left:1.2em;font-size:14px;color:var(--muted);display:grid;gap:6px}
+footer{font-size:12px;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">基本情報技術者試験 科目A</div>
+    <h1>似ている用語を<br>見分けて覚える単語帳</h1>
+    <p class="lead">科目Aでよく出る、まぎらわしい用語を3冊にまとめました。読みたい分野を選んでください。</p>
+  </header>
+
+  <section aria-labelledby="h-books">
+    <h2 id="h-books">3冊の単語帳</h2>
+    <div class="books">
+      <a class="book t" href="technology.html">
+        <span class="spine" aria-hidden="true"></span>
+        <div class="book-body">
+          <div class="book-top"><h3><small>①</small>テクノロジ系</h3><span class="num"><b>27</b>テーマ ／ <b>74</b>項目</span></div>
+          <ul class="tags"><li>基礎理論</li><li>コンピュータ構成</li><li>システム構成</li><li>ソフトウェア</li><li>データベース</li><li>ネットワーク</li><li>セキュリティ</li><li>開発技術</li></ul>
+          <span class="open">開く <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a class="book m" href="management.html">
+        <span class="spine" aria-hidden="true"></span>
+        <div class="book-body">
+          <div class="book-top"><h3><small>②</small>マネジメント系</h3><span class="num"><b>14</b>テーマ ／ <b>41</b>項目</span></div>
+          <ul class="tags"><li>プロジェクト管理</li><li>サービス管理</li><li>システム監査</li></ul>
+          <span class="open">開く <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a class="book s" href="strategy.html">
+        <span class="spine" aria-hidden="true"></span>
+        <div class="book-body">
+          <div class="book-top"><h3><small>③</small>ストラテジ系</h3><span class="num"><b>18</b>テーマ ／ <b>51</b>項目</span></div>
+          <ul class="tags"><li>法務</li><li>企業活動</li><li>経営戦略</li><li>システム戦略</li><li>システム企画</li></ul>
+          <span class="open">開く <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-how">
+    <h2 id="h-how">使い方</h2>
+    <ol class="steps">
+      <li><div><b>すきま時間に、数ページずつ読む</b><span>通勤や休憩の時間に、自分のペースで進めます。</span></div></li>
+      <li><div><b>「意味をかくす」で思い出す練習をする</b><span>語呂とキーワードだけを見て、意味を思い出します。タップすると答えが出ます。</span></div></li>
+      <li><div><b>思い出せなかったらチェックを付ける</b><span>気づいたことは「メモ」に残せます。</span></div></li>
+      <li><div><b>試験前は、チェックした単語だけを見直す</b><span>「チェックした単語だけ」をオンにすると、苦手な単語だけが表示されます。</span></div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="h-read">
+    <h2 id="h-read">ページの見方</h2>
+    <div class="legend">
+      <div class="row"><span class="lab l-goro">語呂</span><span>覚えるための語呂合わせです。</span></div>
+      <div class="row"><span class="lab l-mean">意味</span><span>用語のやさしい説明です。</span></div>
+      <div class="row"><span class="lab l-key">キーワード</span><span>問題文にこの言葉があれば、この用語が答えの手がかりになります。</span></div>
+      <div class="row"><span class="lab l-trap">ひっかけ</span><span>試験でまちがえやすい選択肢のパターンです。</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-note">
+    <h2 id="h-note">知っておいてほしいこと</h2>
+    <ul class="notes">
+      <li>チェックとメモは、この端末のブラウザに保存されます。ほかの人には見えません。ブラウザのデータを消すと、チェックとメモも消えます。</li>
+      <li>メモには、社外秘の情報や個人情報を書かないでください。</li>
+      <li>内容は、IPAの基本情報技術者試験シラバス Ver.9.2 をもとにしています。各ページの下から、シラバスの該当箇所を確認できます。</li>
+    </ul>
+  </section>
+
+  <footer>覚えにくい語呂や、追加してほしい用語があれば、チームの担当者まで教えてください。</footer>
+</div>
+
+</body></html>

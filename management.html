@@ -1,0 +1,334 @@
+<!doctype html><html><head><meta charset=utf8><meta name="robots" content="noindex,nofollow"><meta name="format-detection" content="telephone=no"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>マネジメント系 ゴロ単語帳</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+/* Layout: 縦スクロールの単語カード束。1ページ＝1テーマの対比カード、上部に分類チップと「意味をかくす」スイッチ */
+:root{
+  --bg:#f2f5f1; --card:#fcfdfb; --fg:#1f2a23; --muted:#5f6d63; --line:#dbe3dc;
+  --accent:#2c7a4b; --accent-soft:#dff0e4; --key:#2a5a9e; --key-soft:#e1eaf7; --warn:#a33a2c; --warn-soft:#f8e1dc;
+  --display:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
+  --body:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#161b18; --card:#1f2622; --fg:#e8efe9; --muted:#a3b1a7; --line:#323d36;
+  --accent:#6fcf94; --accent-soft:#1e3527; --key:#8fb4ee; --key-soft:#1e2a3d; --warn:#f0907f; --warn-soft:#3b2420; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#161b18; --card:#1f2622; --fg:#e8efe9; --muted:#a3b1a7; --line:#323d36;
+  --accent:#6fcf94; --accent-soft:#1e3527; --key:#8fb4ee; --key-soft:#1e2a3d; --warn:#f0907f; --warn-soft:#3b2420; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.7}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+header{display:grid;gap:6px;margin-bottom:16px}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--accent);font-weight:700}
+h1{font-family:var(--display);font-weight:900;font-size:28px;line-height:1.3;margin:0;text-wrap:balance}
+.lead{color:var(--muted);font-size:14px;margin:0}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;display:grid;gap:10px;border-bottom:1px solid var(--line);margin-bottom:18px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.chip{flex:none;font:inherit;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.chip:focus-visible,.switch input:focus-visible+span,.term:focus-visible{outline:3px solid var(--key);outline-offset:2px}
+.switch{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);cursor:pointer;width:max-content}
+.switch input{position:absolute;opacity:0}
+.switch input+span{width:42px;height:24px;border-radius:999px;background:var(--line);position:relative;transition:background .2s}
+.switch input+span::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--card);transition:transform .2s}
+.switch input:checked+span{background:var(--key)}
+.switch input:checked+span::after{transform:translateX(18px)}
+.deck{display:grid;gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.card-head{padding:14px 16px 12px;border-bottom:2px dashed var(--line);display:grid;gap:4px}
+.meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.meta b{color:var(--accent)}
+.card h2{font-family:var(--display);font-weight:700;font-size:21px;line-height:1.4;margin:0;text-wrap:balance}
+.how{margin:6px 0 0;font-size:14px;background:var(--accent-soft);padding:8px 12px;border-radius:8px}
+.how strong{color:var(--accent)}
+.terms{display:grid}
+.term{padding:14px 16px;display:grid;gap:8px;border-bottom:1px solid var(--line)}
+.term:last-child{border-bottom:0}
+.term h3{font-family:var(--display);font-size:19px;margin:0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.term h3 small{font-family:var(--body);font-size:12px;color:var(--muted);font-weight:400}
+.row{display:grid;grid-template-columns:5.6em 1fr;gap:8px;align-items:start}
+.row>*{min-width:0}
+.lab{font-size:12px;font-weight:700;letter-spacing:.06em;padding:2px 0;text-align:center;border-radius:6px;margin-top:3px}
+.l-goro{background:var(--accent-soft);color:var(--accent)}
+.l-mean{background:var(--line);color:var(--fg)}
+.l-key{background:var(--key-soft);color:var(--key)}
+.goro{font-weight:700}
+.key{color:var(--key);font-weight:700}
+.trap{margin:0;padding:12px 16px;background:var(--warn-soft);font-size:14px;display:grid;grid-template-columns:5.6em 1fr;gap:8px}
+.trap .lab{background:var(--warn);color:var(--card)}
+body.quiz .mean{filter:blur(6px);user-select:none;cursor:pointer;transition:filter .2s}
+body.quiz .term.open .mean{filter:none}
+.hint{font-size:12px;color:var(--muted);margin:0}
+footer{margin-top:28px;font-size:12px;color:var(--muted)}
+.tools{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding-top:4px}
+.chk{display:inline-flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;color:var(--muted)}
+.chk input{width:20px;height:20px;accent-color:var(--warn);margin:0}
+.chk input:checked+span{color:var(--warn);font-weight:700}
+.memo-btn{font:inherit;font-size:13px;padding:4px 12px;border-radius:999px;border:1.5px dashed var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.memo-btn:focus-visible,.only:focus-visible,.chk input:focus-visible{outline:3px solid var(--key);outline-offset:2px}
+.memo textarea{width:100%;box-sizing:border-box;font:inherit;font-size:15px;line-height:1.6;padding:8px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg);resize:none;overflow:hidden;min-height:2.6em}
+.memo textarea:focus{outline:none;border-color:var(--key)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.tog{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.only{font:inherit;font-size:14px;font-weight:700;padding:5px 12px;border-radius:8px;border:1.5px solid var(--warn);background:var(--card);color:var(--warn);cursor:pointer;font-variant-numeric:tabular-nums}
+.only[aria-pressed="true"]{background:var(--warn);color:var(--card)}
+.status{font-size:12px;color:var(--muted);margin:0}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:20px 16px;color:var(--muted);margin:0}
+footer a{color:var(--key);font-weight:700}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.tools{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.where{font-size:12px;color:var(--muted);margin:0}
+.term-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.miss{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;padding:2px 0}
+.miss input{width:20px;height:20px;accent-color:var(--warn);margin:0}
+.term.missed{background:var(--warn-soft)}
+.term.missed .miss{color:var(--warn);font-weight:700}
+.memo summary{font-size:13px;color:var(--key);font-weight:700;cursor:pointer;width:max-content;display:flex;gap:8px;align-items:center}
+.memo summary .has{font-size:11px;font-weight:700;background:var(--key-soft);padding:1px 8px;border-radius:999px}
+.memo textarea{display:block;width:100%;box-sizing:border-box;margin-top:8px;font:inherit;font-size:15px;line-height:1.6;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);resize:vertical}
+.memo textarea:focus-visible{outline:3px solid var(--key);outline-offset:1px}
+.saved{font-size:12px;color:var(--muted)}
+.syl{display:block;padding:12px 16px;font-size:13px;color:var(--key);text-decoration:none;border-top:1px solid var(--line);font-weight:700}
+.syl:hover{text-decoration:underline}
+.syl:focus-visible{outline:3px solid var(--key);outline-offset:-3px}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:24px 16px;color:var(--muted);text-align:center;margin:0}
+.misscount{font-variant-numeric:tabular-nums;color:var(--warn);font-weight:700}
+.back{display:inline-block;margin-bottom:12px;padding:6px 0;font-size:14px;font-weight:700;color:var(--key);text-decoration:none}
+.back:hover{text-decoration:underline}
+</style>
+
+<div class="wrap">
+  <a class="back" href="index.html">← 目次にもどる</a>
+  <header>
+    <div class="eyebrow">基本情報技術者試験 科目A ｜ ②マネジメント系（見本）</div>
+    <h1>似ている用語を<br>見分けて覚える</h1>
+    <p class="lead">まぎらわしい用語を1ページにまとめ、「覚え方 → 意味 → 見分けるキーワード」の順に読めるようにしました。すきま時間に、自分のペースで少しずつ進めてください。</p>
+  </header>
+
+  <div class="bar">
+    <div class="chips" id="chips" role="group" aria-label="分類で絞り込む"></div>
+    <div class="tog">
+      <div class="tools">
+      <label class="switch" for="quiz"><input type="checkbox" id="quiz"><span></span>意味をかくす（タップで表示）</label>
+      <label class="switch" for="onlymiss"><input type="checkbox" id="onlymiss"><span></span>チェックした単語だけ（<span class="misscount" id="misscount">0</span>語）</label>
+    </div>
+    <p class="where" id="savewhere"></p>
+    </div>
+    <p class="status" id="status" aria-live="polite"></p>
+  </div>
+
+  <main class="deck" id="deck"></main>
+
+  <footer><span id="totals"></span>。キーワードは、問題文で正解の手がかりになりやすい言い回しです。<br>出題範囲を詳しく確認したいときは、IPA公式サイトの<a href="https://www.ipa.go.jp/shiken/syllabus/gaiyou.html" target="_blank" rel="noopener noreferrer">試験要綱・シラバスのページ</a>を開いてください。<br>シラバスは IPA 公式の「基本情報技術者試験 シラバス Ver.9.2」（PDF）を開きます。ページ番号は冊子に印刷された番号です。PDF内で単語を検索してください。<br>チェックとメモは、この端末のブラウザに保存されます（ほかの人には見えません）。</footer>
+</div>
+
+<script>
+const DATA=[
+{syl:[14, "プロジェクトマネジメント", 63],cat:"プロジェクト管理",title:"WBS・ガントチャート・アローダイアグラム",how:"<strong>作業を分けるのか、日程を見るのか、順番をつなぐのか</strong>で見分けます。",
+ terms:[
+  {key:"mg-womb2s8tqpwg",n:"WBS",r:"作業分解構成図",g:"W＝Work、作業をバラバラ（Breakdown）に",m:"プロジェクトの作業を、管理しやすい大きさまで階層的に分解した図です。",k:"「階層的に分解」「ワークパッケージ」"},
+  {key:"mg-fhhnmb18ywe93",n:"ガントチャート",r:"",g:"ガントは横棒、いつからいつまで",m:"作業ごとの期間を横棒で表します。予定と実績を比べやすい図です。",k:"「横棒」「予定と実績の比較」"},
+  {key:"mg-1l0yo2m1s7wjo2",n:"アローダイアグラム",r:"PERT図",g:"アロー＝矢印、作業を矢印でつなぐ",m:"作業の順番やつながり（依存関係）を矢印で表します。クリティカルパスを求めるのに使います。",k:"「作業の順序関係」「矢線」「所要日数の計算」"}],
+ trap:"ガントチャートは作業どうしのつながりを表すのが苦手です。「依存関係」「順序関係」ならアローダイアグラムです。"},
+{syl:[14, "プロジェクトマネジメント", 63],cat:"プロジェクト管理",title:"クリティカルパス・ファストトラッキング・クラッシング",how:"<strong>遅れてはいけない道か</strong>、短縮するなら<strong>作業を並べるのか、人やお金を足すのか</strong>で見分けます。",
+ terms:[
+  {key:"mg-nbt18h1xthrkd",n:"クリティカルパス",r:"",g:"クリティカル＝致命的、遅れたら全体アウトの道",m:"最も時間がかかる作業の流れです。ここが遅れるとプロジェクト全体が遅れます。",k:"「余裕がない」「最も長い経路」「全体の期間を決める」"},
+  {key:"mg-1g0cfa8au9djk",n:"ファストトラッキング",r:"",g:"ファスト＝速く、作業を並べて同時に走る",m:"本来は順番に行う作業を、重ねて並行に進めて期間を短くします。手戻りのリスクが増えます。",k:"「並行して実施」「前の作業の完了を待たずに」"},
+  {key:"mg-10fblfcaejrp4",n:"クラッシング",r:"",g:"人とお金をぶつけて（クラッシュ）短縮",m:"要員を増やすなど資源を追加して期間を短くします。コストが増えます。",k:"「要員を追加」「コストの増加」"}],
+ trap:"「要員を追加」がファストトラッキング、「並行して実施」がクラッシングと入れ替えた選択肢に注意します。"},
+{syl:[14, "プロジェクトマネジメント", 63],cat:"プロジェクト管理",title:"リスク対応（回避・転嫁・軽減・受容）",how:"<strong>リスクをなくすか、人に渡すか、小さくするか、受け入れるか</strong>で見分けます。",
+ terms:[
+  {key:"mg-1eopswmx8n8e8",n:"回避",r:"かいひ",g:"回り道して、リスクの道を通らない",m:"計画を変えるなどして、リスクの原因そのものをなくします。",k:"「計画を変更」「原因を取り除く」"},
+  {key:"mg-1epo66sx8wgse",n:"転嫁",r:"てんか",g:"転嫁＝他人（たにん）へ転がして渡す",m:"保険をかけたり外部に委託したりして、リスクの影響を第三者に移します。",k:"「保険」「第三者に移す」"},
+  {key:"mg-1epnwhdx8wl99",n:"軽減",r:"けいげん",g:"ヘルメットをかぶって、ケガを軽減",m:"対策をして、リスクが起きる確率や起きたときの影響を小さくします。",k:"「発生確率を下げる」「影響を小さく」"},
+  {key:"mg-1eop7qxx8mffl",n:"受容",r:"じゅよう",g:"小雨なら傘なしで受容（じゅよう）、ぬれてもOK",m:"特に対策をとらず、リスクを受け入れます。予備の費用や日程を用意しておくこともあります。",k:"「受け入れる」「対策をとらない」"}],
+ trap:"「保険に入る」は軽減ではなく転嫁です。損失の負担を保険会社（第三者）に移すためです。"},
+{cat:"プロジェクト管理",syl:[14,"プロジェクトマネジメント",63],title:"EVM（PV・EV・AC）",how:"<strong>予定の価値か、終わった作業の価値か、実際に使ったお金か</strong>で見分けます。",
+ terms:[
+  {key:"mg-6gmxg7ejg5tv",n:"PV",r:"計画価値",g:"P＝Plan、予定ではここまで",m:"その時点までに終わっている予定だった作業の予算です。",k:"「計画上の予算」"},
+  {key:"mg-6gmxsyejg5ke",n:"EV",r:"出来高",g:"E＝Earned、実際にかせいだ（終わらせた）分",m:"その時点までに実際に終わった作業を、予算で表した値です。",k:"「完了した作業の予算」「出来高」"},
+  {key:"mg-6gmxpvejg5gf",n:"AC",r:"実コスト",g:"A＝Actual、実際にかかったお金",m:"その時点までに実際に使った費用です。",k:"「実際に発生したコスト」"}],
+ trap:"EVがACより小さいとコスト超過、EVがPVより小さいとスケジュールの遅れです。比べる相手を取り違えないようにします。"},
+{cat:"プロジェクト管理",syl:[14,"プロジェクトマネジメント",63],title:"ファンクションポイント法・類推見積法・三点見積法",how:"<strong>機能の数で数えるか、過去の似た例と比べるか、3つの値から出すか</strong>で見分けます。",
+ terms:[
+  {key:"mg-1fe4jjz1gnzdy7",n:"ファンクションポイント法",r:"",g:"ファンクション＝機能、機能の数で点数をつける",m:"入力・出力・ファイルなどの機能の数と複雑さから、システムの規模を見積もります。",k:"「機能の数と複雑さ」「画面や帳票の数」"},
+  {key:"mg-2782fa16snzc",n:"類推見積法",r:"",g:"類（るい）は友を呼ぶ、似た過去の案件から",m:"よく似た過去のプロジェクトの実績をもとに見積もります。",k:"「過去の類似プロジェクト」"},
+  {key:"mg-146wh401vcrtuq",n:"三点見積法",r:"",g:"楽観・普通・悲観の3点セット",m:"楽観値・最も可能性の高い値・悲観値の3つから見積もります。（楽観値 ＋ 4×最可能値 ＋ 悲観値）÷ 6 で計算します。",k:"「楽観値・最可能値・悲観値」"}],
+ trap:"三点見積法の計算では、最も可能性の高い値だけを4倍します。3つの値の単純な平均ではありません。"},
+{syl:[15, "サービスマネジメント", 69],cat:"サービス管理",title:"インシデント管理・問題管理・変更管理",how:"<strong>今すぐ直すのか、原因をなくすのか、変更を安全に行うのか</strong>で見分けます。",
+ terms:[
+  {key:"mg-ask8tjqw5xfr",n:"インシデント管理",r:"",g:"インシデントは、いそいで（急いで）復旧",m:"止まったサービスを、できるだけ早く元に戻すことを最優先にします。回避策（その場しのぎの対応）も使います。",k:"「迅速な回復」「回避策」「暫定対応」"},
+  {key:"mg-17c9law1fgznw0",n:"問題管理",r:"",g:"問題は根っこから",m:"インシデントの根本原因を調べて、同じことが起きないようにします。",k:"「根本原因」「再発防止」"},
+  {key:"mg-14rdqau1fqomla",n:"変更管理",r:"",g:"勝手に変えない、ハンコ（承認）をもらってから",m:"システムへの変更を評価・承認し、トラブルを起こさずに実施できるよう管理します。",k:"「変更要求の評価・承認」"}],
+ trap:"「根本原因を突き止める」のはインシデント管理ではなく問題管理です。"},
+{syl:[15, "サービスマネジメント", 69],cat:"サービス管理",title:"SLA・SLM",how:"<strong>約束した文書か、約束を守るための活動か</strong>で見分けます。",
+ terms:[
+  {key:"mg-11zrgeorh9wg6",n:"SLA",r:"サービスレベル合意書",g:"A＝Agreement、約束の文書",m:"サービスを提供する側と利用する側が、サービスの品質（稼働率や対応時間など）を合意して文書にしたものです。",k:"「合意」「稼働率〇％以上」"},
+  {key:"mg-11zrgf0rh9wgi",n:"SLM",r:"サービスレベル管理",g:"M＝Management、約束を守り続ける活動",m:"SLAを守れるように、計画・実施・確認・改善（PDCA）を繰り返す活動です。",k:"「PDCA」「継続的な改善」"}],
+ trap:"「PDCAサイクルで品質を維持・向上する活動」はSLAではなくSLMです。"},
+{syl:[15, "サービスマネジメント", 69],cat:"サービス管理",title:"UPS・自家発電装置・サージ防護",how:"<strong>短い停電か、長い停電か、雷などの過電圧か</strong>で見分けます。",
+ terms:[
+  {key:"mg-1nr9svv5w4bvb",n:"UPS",r:"無停電電源装置",g:"うっ、停電！すぐ電池で時間かせぎ",m:"停電したときにバッテリーから短い時間だけ電気を送り、機器を安全に止める時間をつくります。",k:"「瞬断」「短時間の停電」「安全に停止」"},
+  {key:"mg-yrou3f18ias8n",n:"自家発電装置",r:"",g:"自分の家で、長く発電",m:"燃料で発電し、長い時間の停電に備えます。",k:"「長時間の停電」"},
+  {key:"mg-wunoy61q5yggu",n:"サージ防護機器",r:"",g:"サージ＝急な高電圧、雷ガード",m:"落雷などで急に高い電圧が流れたときに、機器を守ります。",k:"「落雷」「過電圧」"}],
+ trap:"UPSはバッテリーの容量に限りがあるため、長時間の停電には対応できません。"},
+{cat:"サービス管理",syl:[15,"サービスマネジメント",69],title:"サービスデスクの形態",how:"<strong>窓口がどこにあり、どうつながっているか</strong>で見分けます。",
+ terms:[
+  {key:"mg-89g3kf1fjy1ub",n:"ローカルサービスデスク",r:"",g:"ローカル＝地元、利用者のすぐ近く",m:"利用者がいる拠点ごとに、近くに窓口を置きます。",k:"「利用者の近く」「拠点ごと」"},
+  {key:"mg-l32sxp1w6mi9t",n:"中央サービスデスク",r:"",g:"中央に1か所、まとめて受付",m:"窓口を1か所に集めて、まとめて対応します。",k:"「1か所に集約」"},
+  {key:"mg-27thsr102gz7l",n:"バーチャルサービスデスク",r:"",g:"バーチャル＝実際は分かれているけど1つに見える",m:"場所は分かれていますが、通信でつないで1つの窓口のように動きます。",k:"「分散しているが1つの窓口として機能」"},
+  {key:"mg-1kcac11bi4yrx",n:"フォロー・ザ・サン",r:"",g:"太陽（サン）を追いかけてリレー",m:"時差のある複数の国や地域の窓口が順番に担当し、24時間対応します。",k:"「時差」「24時間対応」"}],
+ trap:"「場所は分散していても、1つの窓口のように見える」のはバーチャルサービスデスクです。中央サービスデスクと取り違えないようにします。"},
+{cat:"サービス管理",syl:[15,"サービスマネジメント",69],title:"容量・能力管理・サービス可用性管理・サービス継続管理",how:"<strong>処理能力が足りるか、合意どおり使えるか、災害時も続けられるか</strong>で見分けます。",
+ terms:[
+  {key:"mg-1bjfpzujq9v2m",n:"容量・能力管理",r:"キャパシティ管理",g:"キャパ（容量）は足りてる？将来も大丈夫？",m:"今と将来の利用量に対して、サーバやネットワークなどの能力が足りるかを計画して管理します。",k:"「将来の需要」「リソースの能力」「性能の監視」"},
+  {key:"mg-q2rr0y1r0hbqk",n:"サービス可用性管理",r:"",g:"かよう（通う）たびに、ちゃんと開いているお店",m:"サービスが、合意した可用性（使える時間の割合など）を満たすように管理します。",k:"「合意した可用性」「稼働率」"},
+  {key:"mg-xgrbht17zital",n:"サービス継続管理",r:"",g:"災害が来ても、サービスは継続",m:"災害などの大きな障害が起きても、合意したレベルでサービスを続けられるように備えます。",k:"「災害時」「サービスの継続」"}],
+ trap:"「将来の利用者の増加に備えて、サーバの能力を計画する」のは容量・能力管理です。"},
+{syl:[16, "システム監査", 76],cat:"システム監査",title:"システム監査人の立場",how:"<strong>所属が別か、心が公平か、報告と改善は誰がするか</strong>で見分けます。",
+ terms:[
+  {key:"mg-13bgtoj1qxwvz7",n:"外観上の独立性",r:"",g:"外から見ても、所属が別",m:"システム監査人が、監査を受ける部門から組織や身分の上で独立していることです。",k:"「監査対象から独立した部門」「身分上の独立」"},
+  {key:"mg-fy20pyetx4u8",n:"精神上の独立性",r:"",g:"心の中は、いつも公平",m:"思い込みや利害にとらわれず、公正で客観的に判断することです。",k:"「客観的」「公正な判断」"},
+  {key:"mg-1dl8rxwsysqam",n:"監査報告と改善",r:"",g:"報告は依頼者へ、直すのは本人（監査対象）",m:"監査人は結果を監査の依頼者（経営者など）に報告します。改善するのは監査を受けた部門で、監査人は助言と確認（フォローアップ）を行います。",k:"「依頼者に報告」「改善の実施は被監査部門」"}],
+ trap:"「システム監査人が自ら改善作業を行う」という選択肢は誤りです。"},
+{cat:"システム監査",syl:[16,"システム監査",76],title:"監査手続・監査調書・監査報告書",how:"<strong>証拠を集める作業か、作業の記録か、結果の報告か</strong>で見分けます。",
+ terms:[
+  {key:"mg-f1lhvh6rwx5l",n:"監査手続",r:"",g:"手続きは、証拠あつめの“手”",m:"監査の結論を出すための証拠（監査証拠）を集める作業です。資料の確認や、担当者へのヒアリングなどがあります。",k:"「監査証拠を入手」"},
+  {key:"mg-f2e7l76s3oeb",n:"監査調書",r:"",g:"調書は、監査人の“作業日記”",m:"監査人が行った作業と、集めた証拠をまとめた記録です。監査の結論の裏付けになります。",k:"「実施した監査の記録」「結論の根拠」"},
+  {key:"mg-1y6iaof1vxgpo5",n:"監査報告書",r:"",g:"報告書は、頼んだ人（依頼者）へ返す",m:"監査の結果や改善についての意見をまとめ、監査の依頼者に提出する書類です。",k:"「監査の依頼者に提出」「指摘事項と改善勧告」"}],
+ trap:"監査報告書を提出する相手は、監査を受けた部門ではなく監査の依頼者（経営者など）です。"},
+{cat:"システム監査",syl:[16,"システム監査",76],title:"内部統制・ITガバナンス",how:"<strong>業務を正しく行う仕組みか、ITを経営に役立てる仕組みか</strong>で見分けます。",
+ terms:[
+  {key:"mg-15s6pmrq0lnrj",n:"内部統制",r:"",g:"内側から、業務の正しさをコントロール",m:"業務をルールどおり正しく行うために、会社の中に作る仕組みです。整備と運用の責任は経営者にあります。",k:"「業務の適正」「職務の分離」「経営者が整備」"},
+  {key:"mg-hvafrcsnccvu",n:"ITガバナンス",r:"",g:"ITのかじ取りは経営の仕事",m:"ITへの投資や活用を、経営の戦略に合うように方向づけて管理する組織の力です。",k:"「経営戦略に沿ったIT活用」「IT投資の統制」"}],
+ trap:"「職務の分離（1人にすべての権限を集中させない）」は内部統制の考え方です。"},
+{cat:"システム監査",syl:[16,"システム監査",76],title:"システム監査基準・システム管理基準",how:"<strong>監査人のための決まりか、監査で判断に使う物差しか</strong>で見分けます。",
+ terms:[
+  {key:"mg-aw3c6912cyqnf",n:"システム監査基準",r:"",g:"監査“人”のための行動ルール",m:"システム監査人が監査を行うときに守るべき、行動や手順のよりどころです。",k:"「監査人の行動規範」「監査の手順」"},
+  {key:"mg-94yv4u1309et4",n:"システム管理基準",r:"",g:"管理の“物差し”、できているかを測る",m:"組織が情報システムを正しく管理するために実践すべきことをまとめたものです。監査人が判断するときの物差しとして使います。",k:"「監査上の判断尺度」「組織が実践すべき管理」"}],
+ trap:"監査で「できているか」を判断する物差しはシステム管理基準です。名前が似ているシステム監査基準と入れ替えた選択肢に注意します。"}
+];
+const DECK="management";
+const PREFIX="mg";
+const SYL=[];
+function hid(s){let a=5381,b=52711;for(const ch of s){const c=ch.codePointAt(0);a=(a*33)^c;b=(b*31+c)|0;a|=0}return (a>>>0).toString(36)+(b>>>0).toString(36)}
+const SYL_URL="https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kpe-att/syllabus_fe_ver9_2.pdf";
+DATA.forEach((d,i)=>{d.syl=d.syl||SYL[i];d.no=i+1;d.terms.forEach(t=>t.id=t.key||PREFIX+"-"+hid(d.title+"|"+t.n))});
+const cats=["すべて",...new Set(DATA.map(d=>d.cat))];
+let cur="すべて",onlyMiss=false,mode="local",col=null;
+const st={};
+const LS="goro-"+PREFIX;
+try{Object.assign(st,JSON.parse(localStorage.getItem(LS)||"{}"))}catch(e){}
+const $=id=>document.getElementById(id);
+const chips=$("chips"),deck=$("deck");
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const VALID=new Set(DATA.flatMap(d=>d.terms.map(t=>t.id)));
+const OLD=new RegExp("^"+PREFIX+"-\\d{2}-\\d+$");
+function missCount(){return Object.keys(st).filter(k=>VALID.has(k)&&st[k]&&st[k].miss).length}
+function updateCount(){$("misscount").textContent=missCount()}
+function setMode(m){mode=m;$("savewhere").textContent=m==="cloud"?"保存先：あなた専用（ほかの人には見えません）":"保存先：この端末のブラウザのみ"}
+function renderChips(){chips.innerHTML=cats.map(c=>`<button class="chip" type="button" aria-pressed="${c===cur}" data-c="${c}">${c}</button>`).join("")}
+function termHTML(t){
+  const s=st[t.id]||{};const memo=s.memo||"";
+  return `<section class="term${s.miss?" missed":""}" tabindex="0" data-id="${t.id}">
+    <div class="term-top"><h3>${esc(t.n)}${t.r?`<small>${esc(t.r)}</small>`:""}</h3>
+      <label class="miss"><input type="checkbox" id="m-${t.id}" ${s.miss?"checked":""}><span>思い出せなかった</span></label></div>
+    <div class="row"><span class="lab l-goro">語呂</span><span class="goro">${esc(t.g)}</span></div>
+    <div class="row mean"><span class="lab l-mean">意味</span><span>${esc(t.m)}</span></div>
+    <div class="row"><span class="lab l-key">キーワード</span><span class="key">${esc(t.k)}</span></div>
+    <details class="memo"><summary>メモ<span class="has" ${memo?"":"hidden"}>入力済み</span></summary>
+      <textarea id="t-${t.id}" rows="3" maxlength="500" placeholder="自分用のメモ（覚え方、まちがえた理由など）">${esc(memo)}</textarea>
+      <small class="saved" aria-live="polite"></small></details>
+  </section>`}
+function render(){
+  const list=DATA.filter(d=>cur==="すべて"||d.cat===cur)
+    .map(d=>({...d,terms:onlyMiss?d.terms.filter(t=>st[t.id]&&st[t.id].miss):d.terms})).filter(d=>d.terms.length);
+  deck.innerHTML=list.length?list.map(d=>`
+  <article class="card">
+    <div class="card-head">
+      <div class="meta"><b>${d.cat}</b><span>No.${String(d.no).padStart(2,"0")} / ${String(DATA.length).padStart(2,"0")}</span></div>
+      <h2>${esc(d.title)}</h2>
+      <p class="how">見分け方：${d.how}</p>
+    </div>
+    <div class="terms">${d.terms.map(termHTML).join("")}</div>
+    <p class="trap"><span class="lab">ひっかけ</span><span>${esc(d.trap)}</span></p>
+    <a class="syl" href="${SYL_URL}" target="_blank" rel="noopener noreferrer">シラバスで確認：中分類${d.syl[0]} ${d.syl[1]}（p.${d.syl[2]}〜）<span aria-hidden="true">↗</span></a>
+  </article>`).join(""):`<p class="empty">${onlyMiss?"「思い出せなかった」にチェックした単語はまだありません。":"この分類の単語はありません。"}</p>`;
+  updateCount();
+}
+function saveLocal(){try{localStorage.setItem(LS,JSON.stringify(st))}catch(e){}}
+const timers={};
+async function save(id){
+  const v=st[id]||{miss:false,memo:""};
+  if(mode==="cloud"&&col){
+    try{await col.doc(id).set({miss:!!v.miss,memo:v.memo||""});return true}
+    catch(e){setMode("local")}
+  }
+  saveLocal();return true;
+}
+deck.addEventListener("change",e=>{
+  const cb=e.target.closest('.miss input');if(!cb)return;
+  const id=cb.closest(".term").dataset.id;
+  st[id]={...(st[id]||{}),miss:cb.checked};
+  cb.closest(".term").classList.toggle("missed",cb.checked);
+  updateCount();save(id);
+  if(onlyMiss&&!cb.checked)render();
+});
+deck.addEventListener("input",e=>{
+  const ta=e.target.closest(".memo textarea");if(!ta)return;
+  const term=ta.closest(".term"),id=term.dataset.id;
+  st[id]={...(st[id]||{}),memo:ta.value};
+  term.querySelector(".has").hidden=!ta.value.trim();
+  const out=term.querySelector(".saved");out.textContent="入力中…";
+  clearTimeout(timers[id]);
+  timers[id]=setTimeout(async()=>{await save(id);out.textContent="保存しました"},800);
+});
+chips.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;cur=b.dataset.c;renderChips();render()});
+const q=$("quiz");
+q.addEventListener("change",()=>{document.body.classList.toggle("quiz",q.checked);document.querySelectorAll(".term.open").forEach(x=>x.classList.remove("open"))});
+$("onlymiss").addEventListener("change",e=>{onlyMiss=e.target.checked;render()});
+deck.addEventListener("click",e=>{
+  if(e.target.closest("input,textarea,summary,a,label,details"))return;
+  const t=e.target.closest(".term");if(t&&document.body.classList.contains("quiz"))t.classList.toggle("open")});
+deck.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("term")&&document.body.classList.contains("quiz")){e.preventDefault();e.target.classList.toggle("open")}});
+Object.keys(st).forEach(k=>{if(OLD.test(k))delete st[k]});saveLocal();
+setMode("local");renderChips();render();
+$("totals").textContent=DATA.length+"テーマ／"+DATA.reduce((n,d)=>n+d.terms.length,0)+"項目";
+(async()=>{
+  try{
+    const [db,user]=await Promise.all([window.claude?.use("db"),window.claude?.use("user")]);
+    if(!db||!user)return;
+    const uid=await user.id();if(!uid)return;
+    col=db.collection("data/users/"+uid);
+    let first=true;
+    col.onSnapshot(snap=>{
+      let missChanged=false;
+      if(first){
+        // 端末に残っていた記録をクラウドへ引き継ぐ（クラウドに無いものだけ）
+        const have=new Set(snap.docs.map(d=>d.id));
+        Object.keys(st).forEach(k=>{if(VALID.has(k)&&!have.has(k)&&st[k]&&(st[k].miss||st[k].memo))col.doc(k).set({miss:!!st[k].miss,memo:st[k].memo||""}).catch(()=>{})});
+        setMode("cloud");first=false;
+      }
+      snap.docs.forEach(d=>{
+        if(OLD.test(d.id)){col.doc(d.id).delete().catch(()=>{});return}
+        const v=d.data()||{};const old=st[d.id]||{};
+        if(!!old.miss!==!!v.miss)missChanged=true;
+        st[d.id]={miss:!!v.miss,memo:typeof v.memo==="string"?v.memo:""};
+        const term=deck.querySelector(`.term[data-id="${d.id}"]`);
+        if(term){
+          term.querySelector(".miss input").checked=!!v.miss;term.classList.toggle("missed",!!v.miss);
+          const ta=term.querySelector("textarea");
+          if(document.activeElement!==ta&&!timers[d.id+"busy"])ta.value=st[d.id].memo;
+          term.querySelector(".has").hidden=!st[d.id].memo.trim();
+        }
+      });
+      updateCount();
+      if(onlyMiss&&missChanged&&!deck.contains(document.activeElement))render();
+    },()=>setMode("local"));
+  }catch(e){}
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,406 @@
+<!doctype html><html><head><meta charset=utf8><meta name="robots" content="noindex,nofollow"><meta name="format-detection" content="telephone=no"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>テクノロジ系 ゴロ単語帳</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+/* Layout: 縦スクロールの単語カード束。1ページ＝1テーマの対比カード、上部に分類チップと「意味をかくす」スイッチ */
+:root{
+  --bg:#f2f4f8; --card:#fcfdff; --fg:#1e2430; --muted:#5d6677; --line:#dbe0ea;
+  --accent:#2b5fa8; --accent-soft:#e1eaf7; --key:#1f6b5c; --key-soft:#dcefe9; --warn:#a33a2c; --warn-soft:#f8e1dc;
+  --display:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
+  --body:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#151922; --card:#1e2430; --fg:#e7ebf3; --muted:#a1abbd; --line:#303848;
+  --accent:#8fb4ee; --accent-soft:#1e2a3d; --key:#6fcfb6; --key-soft:#1d3530; --warn:#f0907f; --warn-soft:#3b2420; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151922; --card:#1e2430; --fg:#e7ebf3; --muted:#a1abbd; --line:#303848;
+  --accent:#8fb4ee; --accent-soft:#1e2a3d; --key:#6fcfb6; --key-soft:#1d3530; --warn:#f0907f; --warn-soft:#3b2420; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.7}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+header{display:grid;gap:6px;margin-bottom:16px}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--accent);font-weight:700}
+h1{font-family:var(--display);font-weight:900;font-size:28px;line-height:1.3;margin:0;text-wrap:balance}
+.lead{color:var(--muted);font-size:14px;margin:0}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;display:grid;gap:10px;border-bottom:1px solid var(--line);margin-bottom:18px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.chip{flex:none;font:inherit;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.chip:focus-visible,.switch input:focus-visible+span,.term:focus-visible{outline:3px solid var(--key);outline-offset:2px}
+.switch{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);cursor:pointer;width:max-content}
+.switch input{position:absolute;opacity:0}
+.switch input+span{width:42px;height:24px;border-radius:999px;background:var(--line);position:relative;transition:background .2s}
+.switch input+span::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--card);transition:transform .2s}
+.switch input:checked+span{background:var(--key)}
+.switch input:checked+span::after{transform:translateX(18px)}
+.deck{display:grid;gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.card-head{padding:14px 16px 12px;border-bottom:2px dashed var(--line);display:grid;gap:4px}
+.meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.meta b{color:var(--accent)}
+.card h2{font-family:var(--display);font-weight:700;font-size:21px;line-height:1.4;margin:0;text-wrap:balance}
+.how{margin:6px 0 0;font-size:14px;background:var(--accent-soft);padding:8px 12px;border-radius:8px}
+.how strong{color:var(--accent)}
+.terms{display:grid}
+.term{padding:14px 16px;display:grid;gap:8px;border-bottom:1px solid var(--line)}
+.term:last-child{border-bottom:0}
+.term h3{font-family:var(--display);font-size:19px;margin:0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.term h3 small{font-family:var(--body);font-size:12px;color:var(--muted);font-weight:400}
+.row{display:grid;grid-template-columns:5.6em 1fr;gap:8px;align-items:start}
+.row>*{min-width:0}
+.lab{font-size:12px;font-weight:700;letter-spacing:.06em;padding:2px 0;text-align:center;border-radius:6px;margin-top:3px}
+.l-goro{background:var(--accent-soft);color:var(--accent)}
+.l-mean{background:var(--line);color:var(--fg)}
+.l-key{background:var(--key-soft);color:var(--key)}
+.goro{font-weight:700}
+.key{color:var(--key);font-weight:700}
+.trap{margin:0;padding:12px 16px;background:var(--warn-soft);font-size:14px;display:grid;grid-template-columns:5.6em 1fr;gap:8px}
+.trap .lab{background:var(--warn);color:var(--card)}
+body.quiz .mean{filter:blur(6px);user-select:none;cursor:pointer;transition:filter .2s}
+body.quiz .term.open .mean{filter:none}
+.hint{font-size:12px;color:var(--muted);margin:0}
+footer{margin-top:28px;font-size:12px;color:var(--muted)}
+.tools{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding-top:4px}
+.chk{display:inline-flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;color:var(--muted)}
+.chk input{width:20px;height:20px;accent-color:var(--warn);margin:0}
+.chk input:checked+span{color:var(--warn);font-weight:700}
+.memo-btn{font:inherit;font-size:13px;padding:4px 12px;border-radius:999px;border:1.5px dashed var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.memo-btn:focus-visible,.only:focus-visible,.chk input:focus-visible{outline:3px solid var(--key);outline-offset:2px}
+.memo textarea{width:100%;box-sizing:border-box;font:inherit;font-size:15px;line-height:1.6;padding:8px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg);resize:none;overflow:hidden;min-height:2.6em}
+.memo textarea:focus{outline:none;border-color:var(--key)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.tog{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.only{font:inherit;font-size:14px;font-weight:700;padding:5px 12px;border-radius:8px;border:1.5px solid var(--warn);background:var(--card);color:var(--warn);cursor:pointer;font-variant-numeric:tabular-nums}
+.only[aria-pressed="true"]{background:var(--warn);color:var(--card)}
+.status{font-size:12px;color:var(--muted);margin:0}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:20px 16px;color:var(--muted);margin:0}
+footer a{color:var(--key);font-weight:700}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.tools{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.where{font-size:12px;color:var(--muted);margin:0}
+.term-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.miss{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;padding:2px 0}
+.miss input{width:20px;height:20px;accent-color:var(--warn);margin:0}
+.term.missed{background:var(--warn-soft)}
+.term.missed .miss{color:var(--warn);font-weight:700}
+.memo summary{font-size:13px;color:var(--key);font-weight:700;cursor:pointer;width:max-content;display:flex;gap:8px;align-items:center}
+.memo summary .has{font-size:11px;font-weight:700;background:var(--key-soft);padding:1px 8px;border-radius:999px}
+.memo textarea{display:block;width:100%;box-sizing:border-box;margin-top:8px;font:inherit;font-size:15px;line-height:1.6;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);resize:vertical}
+.memo textarea:focus-visible{outline:3px solid var(--key);outline-offset:1px}
+.saved{font-size:12px;color:var(--muted)}
+.syl{display:block;padding:12px 16px;font-size:13px;color:var(--key);text-decoration:none;border-top:1px solid var(--line);font-weight:700}
+.syl:hover{text-decoration:underline}
+.syl:focus-visible{outline:3px solid var(--key);outline-offset:-3px}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:24px 16px;color:var(--muted);text-align:center;margin:0}
+.misscount{font-variant-numeric:tabular-nums;color:var(--warn);font-weight:700}
+.back{display:inline-block;margin-bottom:12px;padding:6px 0;font-size:14px;font-weight:700;color:var(--key);text-decoration:none}
+.back:hover{text-decoration:underline}
+</style>
+
+<div class="wrap">
+  <a class="back" href="index.html">← 目次にもどる</a>
+  <header>
+    <div class="eyebrow">基本情報技術者試験 科目A ｜ ①テクノロジ系（見本）</div>
+    <h1>似ている用語を<br>見分けて覚える</h1>
+    <p class="lead">まぎらわしい用語を1ページにまとめ、「覚え方 → 意味 → 見分けるキーワード」の順に読めるようにしました。すきま時間に、自分のペースで少しずつ進めてください。</p>
+  </header>
+
+  <div class="bar">
+    <div class="chips" id="chips" role="group" aria-label="分類で絞り込む"></div>
+    <div class="tog">
+      <div class="tools">
+      <label class="switch" for="quiz"><input type="checkbox" id="quiz"><span></span>意味をかくす（タップで表示）</label>
+      <label class="switch" for="onlymiss"><input type="checkbox" id="onlymiss"><span></span>チェックした単語だけ（<span class="misscount" id="misscount">0</span>語）</label>
+    </div>
+    <p class="where" id="savewhere"></p>
+    </div>
+    <p class="status" id="status" aria-live="polite"></p>
+  </div>
+
+  <main class="deck" id="deck"></main>
+
+  <footer><span id="totals"></span>。キーワードは、問題文で正解の手がかりになりやすい言い回しです。<br>出題範囲を詳しく確認したいときは、IPA公式サイトの<a href="https://www.ipa.go.jp/shiken/syllabus/gaiyou.html" target="_blank" rel="noopener noreferrer">試験要綱・シラバスのページ</a>を開いてください。<br>シラバスは IPA 公式の「基本情報技術者試験 シラバス Ver.9.2」（PDF）を開きます。ページ番号は冊子に印刷された番号です。PDF内で単語を検索してください。<br>チェックとメモは、この端末のブラウザに保存されます（ほかの人には見えません）。</footer>
+</div>
+
+<script>
+const DATA=[
+{cat:"基礎理論",syl:[1,"基礎理論",2],title:"AND・OR・XOR・NOT",how:"<strong>どの組み合わせのときに1（真）になるか</strong>で見分けます。",
+ terms:[
+  {key:"te-wig9qnt8vjc1",n:"AND",r:"論理積",g:"アンド＝「〜かつ〜」、両方1で1",m:"2つの入力がどちらも1のときだけ、結果が1になります。",k:"「両方とも1のときだけ1」"},
+  {key:"te-1tk46pl1m85ghl",n:"OR",r:"論理和",g:"オア＝「〜または〜」、どちらか1で1",m:"2つの入力のどちらか一方でも1なら、結果が1になります。",k:"「少なくとも一方が1なら1」"},
+  {key:"te-wigskht8w0f9",n:"XOR",r:"排他的論理和",g:"エックス（×）は仲間はずれ、ちがうときだけ1",m:"2つの入力が異なるとき（0と1）だけ、結果が1になります。両方とも1なら0です。",k:"「異なるときだけ1」「両方1なら0」"},
+  {key:"te-wiggttt8vt0d",n:"NOT",r:"否定",g:"ノット＝ひっくり返す",m:"入力が1なら0、0なら1と、値を反対にします。",k:"「値の反転」"}],
+ trap:"XORは「両方とも1」のとき0になります。ORと同じだと思わないように注意します。"},
+{cat:"基礎理論",syl:[2,"アルゴリズムとプログラミング",7],title:"スタック・キュー",how:"<strong>最後に入れたものを先に出すか、最初に入れたものを先に出すか</strong>で見分けます。",
+ terms:[
+  {key:"te-15fly0mivyirw",n:"スタック",r:"LIFO（後入れ先出し）",g:"積み重ねたお皿は、上（最後）から取る",m:"最後に入れたデータを最初に取り出す構造です。入れる操作をプッシュ、取り出す操作をポップと呼びます。",k:"「後入れ先出し」「プッシュ・ポップ」"},
+  {key:"te-1j2esg89rvlmy",n:"キュー",r:"FIFO（先入れ先出し）",g:"レジの行列は、先に並んだ人から",m:"最初に入れたデータを最初に取り出す構造です。待ち行列とも呼びます。",k:"「先入れ先出し」「待ち行列」"}],
+ trap:"LIFOはスタック、FIFOはキューです。頭文字のL（Last）とF（First）を取り違えないようにします。"},
+{cat:"コンピュータ構成",syl:[3,"コンピュータ構成要素",11],title:"DRAM・SRAM",how:"<strong>リフレッシュ（記憶の書き直し）が必要か</strong>と、<strong>主記憶かキャッシュか</strong>で見分けます。",
+ terms:[
+  {key:"te-5nmvwv10yc7m9",n:"DRAM",r:"",g:"D＝ダイナミック、こまめにリフレッシュが必要",m:"記憶を保つために定期的な書き直し（リフレッシュ）が必要です。安くて大容量なので、主記憶（メインメモリ）に使います。",k:"「リフレッシュが必要」「主記憶」「大容量・安価」"},
+  {key:"te-5nc66010ylsf6",n:"SRAM",r:"",g:"S＝スタティック、じっとして書き直し不要",m:"リフレッシュが不要で、高速に読み書きできます。高価なので、キャッシュメモリに使います。",k:"「リフレッシュ不要」「高速」「キャッシュメモリ」"}],
+ trap:"「リフレッシュが必要」なのはDRAMです。高速なSRAMと入れ替えた選択肢に注意します。"},
+{cat:"コンピュータ構成",syl:[3,"コンピュータ構成要素",11],title:"クロック周波数・CPI・MIPS",how:"<strong>1秒間のリズムの数か、1命令にかかるリズムの数か、1秒間の命令の数か</strong>で見分けます。",
+ terms:[
+  {key:"te-dcxuro10ub4w4",n:"クロック周波数",r:"",g:"CPUの心臓のドキドキ回数",m:"CPUが動作するリズム（クロック）が、1秒間に何回あるかを表します。単位はHz（ヘルツ）です。",k:"「1秒間のクロック数」「GHz」"},
+  {key:"te-w8zv0qr85r78",n:"CPI",r:"",g:"1命令（Instruction）に何クロック？",m:"1つの命令を実行するのに必要なクロック数です。少ないほど速く処理できます。",k:"「1命令あたりのクロック数」"},
+  {key:"te-1xtleyf1qow2ef",n:"MIPS",r:"",g:"1秒で何百万（Million）命令？",m:"1秒間に実行できる命令の数を、百万単位で表します。大きいほど速いCPUです。",k:"「1秒間の命令実行数（百万単位）」"}],
+ trap:"CPIは小さいほど、MIPSは大きいほど高性能です。向きが逆なので注意します。"},
+{cat:"コンピュータ構成",syl:[3,"コンピュータ構成要素",11],title:"USB・Bluetooth・NFC",how:"<strong>ケーブルでつなぐか、数メートルの無線か、かざすほどの近さか</strong>で見分けます。",
+ terms:[
+  {key:"te-1ixmh1g14a6voo",n:"USB",r:"",g:"ケーブル1本で、データも電気も",m:"ケーブルで機器をつなぐ規格です。電源を入れたまま抜き差しでき（ホットプラグ）、電気を送ることもできます。",k:"「ケーブルで接続」「ホットプラグ」「バスパワー」"},
+  {key:"te-1or0som1v4tj4i",n:"Bluetooth",r:"ブルートゥース",g:"ケーブルいらずの、数メートル無線",m:"数メートルから数十メートルの範囲で、機器どうしを無線でつなぐ規格です。ワイヤレスイヤホンなどに使います。",k:"「近距離の無線通信」「ペアリング」"},
+  {key:"te-1ixmbaj14a6q6n",n:"NFC",r:"",g:"N＝Near、かざすだけのとても近い通信",m:"約10cm以内の、とても近い距離で通信する規格です。交通系ICカードなどに使います。",k:"「かざす」「約10cm以内」「非接触ICカード」"}],
+ trap:"「かざして通信する」のはBluetoothではなくNFCです。"},
+{syl:[4, "システム構成要素", 16],cat:"システム構成",title:"RAID0・RAID1・RAID5",how:"<strong>速さだけか、コピーを取るか、パリティで復旧するか</strong>で見分けます。",
+ terms:[
+  {key:"te-6836711vosbvp",n:"RAID0",r:"ストライピング",g:"0（ゼロ）は守りもゼロ",m:"データを複数のディスクに分けて書き込み、速くします。1台壊れるとデータは失われます。",k:"「ストライピング」「冗長性なし」"},
+  {key:"te-6836701vosbvq",n:"RAID1",r:"ミラーリング",g:"1台を鏡に映して、もう1台",m:"同じデータを2台のディスクに書き込みます。1台壊れても、もう1台で使えます。",k:"「ミラーリング」「同じデータを2台に」"},
+  {key:"te-68366w1vosbvu",n:"RAID5",r:"",g:"ゴ（5）っそりパリティ分散",m:"データとパリティ（壊れたデータを復元するための情報）を複数のディスクに分散して書き込みます。1台壊れても復旧できます。",k:"「パリティを分散」"}],
+ trap:"パリティを1台のディスクにまとめて書くのはRAID4です。「分散」ならRAID5です。"},
+{syl:[4, "システム構成要素", 16],cat:"システム構成",title:"MTBF・MTTR・稼働率",how:"<strong>動いている時間か、直している時間か</strong>で見分けます。",
+ terms:[
+  {key:"te-17ua15c5nf0n2",n:"MTBF",r:"平均故障間隔",g:"B＝Between、故障と故障の“間”",m:"故障が直ってから次に故障するまでの、平均の動いている時間です。長いほど良いです。",k:"「平均故障間隔」「信頼性」"},
+  {key:"te-17ua0ia5nf12w",n:"MTTR",r:"平均修復時間",g:"R＝Repair（修理）",m:"故障してから直るまでにかかる平均の時間です。短いほど良いです。",k:"「平均修復時間」「保守性」"},
+  {key:"te-maq3vf59sllv",n:"稼働率",r:"",g:"動いた時間 ÷ 全部の時間",m:"稼働率 ＝ MTBF ÷（MTBF ＋ MTTR）で求めます。",k:"「MTBF ÷（MTBF＋MTTR）」"}],
+ trap:"「MTTRが長いほど信頼性が高い」は誤りです。MTTRは短いほど良い値です。"},
+{cat:"システム構成",syl:[4,"システム構成要素",16],title:"デュアルシステム・デュプレックスシステム",how:"<strong>2系統で同じ処理を同時にするか、片方を待機させるか</strong>で見分けます。",
+ terms:[
+  {key:"te-7d5ruu1b5zqy",n:"デュアルシステム",r:"",g:"デュアル＝2人で同時に同じ計算、答え合わせ",m:"2つのシステムで同じ処理を同時に行い、結果を照らし合わせます。片方が壊れても、もう片方で処理を続けられます。",k:"「同じ処理を同時に実行」「結果を照合」"},
+  {key:"te-hjiiu91478cf",n:"デュプレックスシステム",r:"",g:"本番（現用系）と控え（待機系）",m:"ふだんは現用系で処理し、待機系は控えておきます。障害が起きたら待機系に切り替えます。",k:"「現用系と待機系」「障害時に切り替え」"}],
+ trap:"「2系統で同じ処理をして結果を照合する」のはデュアルシステムです。デュプレックスシステムは片方が待機しています。"},
+{cat:"ソフトウェア",syl:[5,"ソフトウェア",18],title:"ページ置換え（FIFO・LRU）",how:"<strong>いちばん古く入ったものを追い出すか、いちばん長く使っていないものを追い出すか</strong>で見分けます。",
+ terms:[
+  {key:"te-365qdn1r3ddqz",n:"FIFO",r:"",g:"First In First Out、最初に入ったページから退場",m:"主記憶に最も古く読み込まれたページを追い出して、新しいページと入れ替えます。",k:"「最も古く読み込まれた」"},
+  {key:"te-1m7n086kd6940",n:"LRU",r:"",g:"最近（Recently）いちばん使われていない",m:"最後に使われてから最も長い時間がたったページを追い出して、入れ替えます。",k:"「最も長い間参照されていない」"}],
+ trap:"読み込まれた順番で決めるのがFIFO、最後に使われた時刻で決めるのがLRUです。計算問題では表に書き出して確認します。"},
+{cat:"ソフトウェア",syl:[5,"ソフトウェア",18],title:"コンパイラ・インタプリタ",how:"<strong>まとめて翻訳してから実行するか、1行ずつ翻訳しながら実行するか</strong>で見分けます。",
+ terms:[
+  {key:"te-x83iiwj04eki",n:"コンパイラ",r:"",g:"まとめて翻訳、本1冊を先に全部訳す",m:"プログラム全体を、先にまとめて機械語に翻訳します。翻訳したあとの実行は速くなります。",k:"「一括して翻訳」「目的プログラムを生成」"},
+  {key:"te-1iswpfidqxln4",n:"インタプリタ",r:"",g:"通訳のように、1文ずつ訳しながら進む",m:"プログラムを1命令ずつ解釈しながら実行します。すぐに動かして確かめられます。",k:"「1命令ずつ解釈・実行」"}],
+ trap:"「目的プログラム（翻訳済みのプログラム）を作る」のはコンパイラです。"},
+{cat:"データベース",syl:[9,"データベース",28],title:"主キー・外部キー",how:"<strong>自分の表の行を特定するか、別の表につなぐか</strong>で見分けます。",
+ terms:[
+  {key:"te-12g1phpsrkraf",n:"主キー",r:"",g:"主役のキーは、ひとりにひとつ",m:"表の中の1行を、ただ1つに特定するための項目です。値の重複や空の値（NULL）は許されません。",k:"「一意に識別」「重複・NULL不可」"},
+  {key:"te-1mkhmzs154wxr8",n:"外部キー",r:"",g:"外の表の主キーにつなぐ",m:"ほかの表の主キーを参照する項目です。参照先に無い値は入れられません（参照制約）。",k:"「ほかの表の主キーを参照」「参照制約」"}],
+ trap:"外部キーは、重複した値を入れることができます。「重複できない」のは主キーです。"},
+{cat:"データベース",syl:[9,"データベース",28],title:"第1・第2・第3正規形",how:"<strong>何を分けて表を整理するか</strong>で見分けます。",
+ terms:[
+  {key:"te-1ssmkbc1mj678e",n:"第1正規形",r:"",g:"第1は、いち（1）いちくり返さない",m:"1つの欄に複数の値が入っている状態や、くり返し出てくる項目をなくした形です。",k:"「繰返し項目の排除」"},
+  {key:"te-1ssn12z1mj6u7x",n:"第2正規形",r:"",g:"第2は、に（2）ぶん＝“部分”従属を分ける",m:"主キーの一部だけで値が決まる項目（部分関数従属）を、別の表に分けた形です。",k:"「部分関数従属の排除」"},
+  {key:"te-1sskfmi1mj7h7g",n:"第3正規形",r:"",g:"第3は、キー→A→Bの“三段跳び”（推移）を分ける",m:"主キー以外の項目によって値が決まる項目（推移的関数従属）を、別の表に分けた形です。",k:"「推移的関数従属の排除」"}],
+ trap:"「部分」は第2正規形、「推移的」は第3正規形です。この入れ替えに注意します。"},
+{cat:"データベース",syl:[9,"データベース",28],title:"コミット・ロールバック・ロールフォワード",how:"<strong>確定するか、取り消すか、障害のあとに作り直すか</strong>で見分けます。",
+ terms:[
+  {key:"te-109dfsz1145dhl",n:"コミット",r:"",g:"コミット＝約束、これで確定",m:"トランザクション（ひとまとまりの処理）の結果を確定させます。",k:"「更新を確定」"},
+  {key:"te-sofog2126fwgo",n:"ロールバック",r:"",g:"バック＝後ろへ、処理の前に巻き戻す",m:"処理の途中で問題が起きたとき、更新前ログを使って処理の前の状態に戻します。",k:"「更新前ログ」「処理前の状態に戻す」"},
+  {key:"te-1c955g8122xk04",n:"ロールフォワード",r:"",g:"フォワード＝前へ、バックアップから先へ進め直す",m:"ディスクが壊れたときなどに、バックアップを戻してから更新後ログで処理をやり直し、障害の直前まで復旧します。",k:"「バックアップ＋更新後ログ」「障害直前まで復旧」"}],
+ trap:"ロールバックは「更新前ログ」、ロールフォワードは「更新後ログ」を使います。"},
+{syl:[10, "ネットワーク", 32],cat:"ネットワーク",title:"リピータ・スイッチ・ルータ",how:"<strong>信号をのばすのか、MACアドレスで送るのか、IPアドレスで道を選ぶのか</strong>で見分けます。",
+ terms:[
+  {key:"te-44p2ry2ulkyu",n:"リピータ",r:"物理層",g:"リピート＝信号をくり返して遠くへ",m:"弱くなった電気信号を増幅して、ケーブルの距離をのばします。",k:"「物理層」「信号の増幅」"},
+  {key:"te-1iqpkuq1ta9u14",n:"L2スイッチ",r:"データリンク層",g:"スイッチはMAC（マック）で切り替え",m:"MACアドレス（機器ごとの番号）を見て、必要な相手にだけデータを送ります。ブリッジも同じ層の機器です。",k:"「データリンク層」「MACアドレス」"},
+  {key:"te-1769ssb1ei1adx",n:"ルータ",r:"ネットワーク層",g:"ルート＝道、IPで道案内",m:"IPアドレスを見て、別のネットワークへの経路を選んでデータを送ります。",k:"「ネットワーク層」「IPアドレス」「経路選択」"}],
+ trap:"MACアドレスで転送するのはスイッチ、IPアドレスで転送するのはルータです。"},
+{syl:[10, "ネットワーク", 32],cat:"ネットワーク",title:"DNS・DHCP・NAT",how:"<strong>名前を変換するのか、アドレスを配るのか、アドレスを付け替えるのか</strong>で見分けます。",
+ terms:[
+  {key:"te-qyho8t15qzfh9",n:"DNS",r:"",g:"N＝Name、名前をIPアドレスに変える電話帳",m:"ドメイン名（例：www.example.jp）とIPアドレスを対応づけます。",k:"「ドメイン名をIPアドレスに変換」"},
+  {key:"te-118ubtnfoh7j1",n:"DHCP",r:"",g:"つないだら、IPアドレスを自動で配る",m:"ネットワークにつないだ機器に、IPアドレスなどの設定を自動で割り当てます。",k:"「IPアドレスを自動で割り当て」"},
+  {key:"te-qyht2715qzml1",n:"NAT",r:"",g:"NATは社内（プライベート）と社外（グローバル）の通訳",m:"社内で使うプライベートIPアドレスと、インターネットで使うグローバルIPアドレスを変換します。",k:"「プライベートIPとグローバルIPの変換」"}],
+ trap:"「IPアドレスを自動で割り当てる」のはDNSではなくDHCPです。"},
+{cat:"ネットワーク",syl:[10,"ネットワーク",32],title:"TCP・UDP",how:"<strong>確実に届けるか、速さを優先するか</strong>で見分けます。",
+ terms:[
+  {key:"te-cx0gqrufhon9",n:"TCP",r:"",g:"「届いた？」「届いたよ」と確かめ合う書留郵便",m:"相手に届いたかを確認し、届かなければ送り直します。正確さが大事な通信に使います。",k:"「確認応答」「再送」「信頼性が高い」"},
+  {key:"te-cx0krpufhpet",n:"UDP",r:"",g:"配りっぱなしのチラシ、確認しないぶん速い",m:"届いたかの確認をせずに送るので、速く送れます。音声通話や動画の配信などに使います。",k:"「確認応答なし」「リアルタイム性」"}],
+ trap:"「音声や動画をリアルタイムで送る」ならUDPです。「確実に届ける」TCPと入れ替えた選択肢に注意します。"},
+{cat:"ネットワーク",syl:[10,"ネットワーク",32],title:"IPv4・IPv6",how:"<strong>アドレスの長さ（ビット数）</strong>で見分けます。",
+ terms:[
+  {key:"te-92mhkrmge3kb",n:"IPv4",r:"",g:"4は、32ビット（8ビット×4つ）",m:"IPアドレスの長さは32ビットです。数が足りなくなってきたため、IPv6への移行が進んでいます。",k:"「32ビット」「アドレス不足」"},
+  {key:"te-92mhkpmge3kd",n:"IPv6",r:"",g:"6は、128ビットでたっぷり",m:"IPアドレスの長さは128ビットです。とても多くのアドレスを使えます。",k:"「128ビット」"}],
+ trap:"IPv6は「64ビット」ではなく「128ビット」です。数字の6につられないようにします。"},
+{syl:[11, "セキュリティ", 38],cat:"セキュリティ",title:"フィッシング・ファーミング",how:"<strong>偽メールのリンクから誘うのか</strong>、<strong>正しいURLを入力しても偽サイトに飛ばすのか</strong>で見分けます。",
+ terms:[
+  {key:"te-1nbhjg61v1g2vu",n:"フィッシング",r:"",g:"釣り（fish）メールで、えさに食いつかせる",m:"本物そっくりのメールなどで偽サイトに誘い、IDやパスワードを入力させてだまし取ります。",k:"「メールのリンク」「偽サイトに誘導」"},
+  {key:"te-1nfb2wz1v1dplz",n:"ファーミング",r:"",g:"畑（farm）ごと道案内（DNS）を乗っ取る",m:"DNSの情報などを書き換えて、利用者が正しいURLを入力しても偽サイトに接続させます。",k:"「正しいURLを入力しても」「DNSの書き換え」"}],
+ trap:"「正しいURLを入力したのに偽サイトにつながった」はフィッシングではなくファーミングです。"},
+{syl:[11, "セキュリティ", 38],cat:"セキュリティ",title:"機密性・完全性・可用性",how:"<strong>見せないのか、書き換えさせないのか、いつでも使えるのか</strong>で見分けます。",
+ terms:[
+  {key:"te-fkjccac9cd1c",n:"機密性",r:"きみつせい",g:"きみつ（機密）は“きみ”（君）にだけ見せる",m:"許可された人だけが情報を見たり使ったりできることです。",k:"「アクセス制御」「暗号化」「許可された者だけ」"},
+  {key:"te-fn383rc74fij",n:"完全性",r:"かんぜんせい",g:"完全性は“改ざんゼロ”で完ぺき",m:"情報が改ざんされておらず、正確で欠けていないことです。",k:"「改ざん防止」「ディジタル署名」「ハッシュ値」"},
+  {key:"te-fo638kc66d7y",n:"可用性",r:"かようせい",g:"かよう（通う）たびに、いつでも使える",m:"必要なときに、いつでも情報やシステムを使えることです。",k:"「必要なときに使える」「冗長化」「バックアップ」"}],
+ trap:"ディジタル署名は「改ざんされていないか」を確かめる技術なので、機密性ではなく完全性の対策です。"},
+{syl:[11, "セキュリティ", 38],cat:"セキュリティ",title:"共通鍵暗号・公開鍵暗号・ディジタル署名",how:"<strong>誰の、どの鍵を使うか</strong>で見分けます。",
+ terms:[
+  {key:"te-yw1onw16y1np4",n:"共通鍵暗号",r:"例：AES",g:"共通＝同じ鍵をおたがいに持つ",m:"暗号化と復号（元に戻すこと）に同じ鍵を使います。処理は速いですが、鍵を安全に渡すのが難しい方式です。",k:"「同じ鍵」「処理が速い」"},
+  {key:"te-zb130017k05gi",n:"公開鍵暗号",r:"例：RSA",g:"送る相手の公開鍵でカギをかける",m:"送信者は受信者の公開鍵で暗号化し、受信者は自分だけが持つ秘密鍵で復号します。",k:"「受信者の公開鍵で暗号化」「受信者の秘密鍵で復号」"},
+  {key:"te-1k4wlv91ch60lr",n:"ディジタル署名",r:"",g:"署名は自分の秘密のハンコ（秘密鍵）",m:"送信者が自分の秘密鍵で署名し、受信者は送信者の公開鍵で確かめます。改ざんとなりすましを見つけられます。",k:"「送信者の秘密鍵で署名」「送信者の公開鍵で検証」"}],
+ trap:"暗号化は「受信者の公開鍵」、署名は「送信者の秘密鍵」です。この2つを入れ替えた選択肢がよく出ます。"},
+{cat:"セキュリティ",syl:[11,"セキュリティ",38],title:"ウイルス・ワーム・トロイの木馬・ランサムウェア",how:"<strong>寄生するか、自分で増えるか、正体を隠すか、身代金を求めるか</strong>で見分けます。",
+ terms:[
+  {key:"te-7eohxy1qw1mvo",n:"ウイルス",r:"",g:"ウイルスは、宿（やど）がないと生きられない",m:"ほかのプログラムやファイルに入り込み、それを宿主にして広がります。",k:"「ほかのプログラムに寄生」"},
+  {key:"te-1mc81w5dhiinf",n:"ワーム",r:"",g:"イモムシ（ワーム）は単独で増えて進む",m:"宿主を必要とせず、自分だけで複製してネットワークを通じて広がります。",k:"「単独で自己増殖」「ネットワーク経由で拡散」"},
+  {key:"te-kzx5cd7bopej",n:"トロイの木馬",r:"",g:"木馬のプレゼントに兵士が隠れている",m:"便利なソフトのふりをして入り込み、裏で悪いことをします。自分で増えることはしません。",k:"「有用なソフトを装う」「自己増殖しない」"},
+  {key:"te-16jiyx641epj8",n:"ランサムウェア",r:"",g:"ランサム＝身代金、データを人質に",m:"パソコンのデータを勝手に暗号化して使えなくし、元に戻す代わりに金銭を要求します。",k:"「データを暗号化」「金銭を要求」"}],
+ trap:"「自己増殖しない」のはトロイの木馬です。「宿主なしで増える」ワームと入れ替えた選択肢に注意します。"},
+{cat:"セキュリティ",syl:[11,"セキュリティ",38],title:"SQLインジェクション・XSS・CSRF",how:"<strong>何に悪いものを入れるか</strong>（データベースか、閲覧者のブラウザか、利用者の操作か）で見分けます。",
+ terms:[
+  {key:"te-1qkailh1n1n0i5",n:"SQLインジェクション",r:"",g:"SQL（データベースへの命令）を注射（インジェクション）",m:"入力欄に不正なSQL文を入れて、データベースを不正に操作します。",k:"「データベースを不正に操作」「対策：プレースホルダ」"},
+  {key:"te-ucp71z1mxlgg5",n:"XSS",r:"クロスサイトスクリプティング",g:"スクリプトがサイトをまたいで（クロス）実行される",m:"弱点のあるWebサイトに悪いスクリプトを仕込み、閲覧した人のブラウザで実行させます。",k:"「閲覧者のブラウザで実行」「対策：エスケープ処理」"},
+  {key:"te-77e2q31f5adtj",n:"CSRF",r:"クロスサイトリクエストフォージェリ",g:"リクエストを偽造（フォージェリ）させる",m:"ログインしたままの利用者に罠のページを開かせ、本人が意図しない操作（書き込みや購入など）を送らせます。",k:"「利用者が意図しない処理」「ログイン中の利用者」"}],
+ trap:"「閲覧者のブラウザでスクリプトが実行される」のはXSSです。CSRFは、利用者に意図しない操作をさせる攻撃です。"},
+{cat:"セキュリティ",syl:[11,"セキュリティ",38],title:"ファイアウォール・WAF・IDS・IPS",how:"<strong>何を見て判断するか</strong>と、<strong>見つけたら止めるか、知らせるだけか</strong>で見分けます。",
+ terms:[
+  {key:"te-g598g69malfq",n:"ファイアウォール",r:"",g:"防火壁で、決まった通り道だけ通す",m:"IPアドレスやポート番号などを見て、通信を通すか止めるかを決めます。",k:"「IPアドレスとポート番号で制御」"},
+  {key:"te-c7tjlos92m6q",n:"WAF",r:"",g:"W＝Web専用のファイアウォール",m:"Webアプリケーションへの攻撃（SQLインジェクションやXSSなど）の通信を見つけて止めます。",k:"「Webアプリケーションへの攻撃を防ぐ」"},
+  {key:"te-c7sxoys92bvy",n:"IDS",r:"侵入検知システム",g:"D＝Detection（検知）、見つけて知らせる",m:"不正な通信を見つけて、管理者に知らせます。通信を止めることはしません。",k:"「検知して通知」"},
+  {key:"te-c7sy6es92c6a",n:"IPS",r:"侵入防止システム",g:"P＝Prevention（防止）、見つけて止める",m:"不正な通信を見つけて、自動で止めます。",k:"「検知して遮断」"}],
+ trap:"IDSは「知らせるだけ」、IPSは「止める」までします。DとPの1文字で見分けます。"},
+{syl:[12, "システム開発技術", 45],cat:"開発技術",title:"ブラックボックステスト・ホワイトボックステスト",how:"<strong>プログラムの中身を見るかどうか</strong>で見分けます。",
+ terms:[
+  {key:"te-1yvcsroe5q8bc",n:"ブラックボックステスト",r:"",g:"黒い箱は中が見えない、入口と出口だけ見る",m:"内部の作りは見ずに、仕様どおりの入力と出力になるかを確かめます。",k:"「仕様に基づく」「同値分割」「境界値分析」"},
+  {key:"te-p209lb1n5adb",n:"ホワイトボックステスト",r:"",g:"白い箱は中まで見える",m:"プログラムの内部の流れに注目して、命令や分岐が実行されるかを確かめます。",k:"「内部構造」「命令網羅」「分岐網羅」"}],
+ trap:"同値分割・境界値分析はブラックボックステストの手法です。「網羅」が付く手法はホワイトボックステストです。"},
+{cat:"開発技術",syl:[13,"ソフトウェア開発管理技術",58],title:"ウォーターフォール・アジャイル・プロトタイピング",how:"<strong>順番に一度だけ進めるか、短く何度もくり返すか、まず試作品を見せるか</strong>で見分けます。",
+ terms:[
+  {key:"te-uhytcvq1ke5b",n:"ウォーターフォールモデル",r:"",g:"滝（ウォーターフォール）の水は上に戻らない",m:"要件定義・設計・プログラミング・テストの工程を順番に進めます。原則として前の工程には戻りません。",k:"「工程を順番に」「後戻りしない」"},
+  {key:"te-1e8vgkc3vhj36",n:"アジャイル",r:"",g:"アジャイル＝すばやい、短いサイクルで回す",m:"短い期間で「作る・確認する」をくり返し、変化に合わせて柔軟に開発します。スクラムなどの手法があります。",k:"「短い期間で反復」「変化に柔軟」「スクラム」"},
+  {key:"te-18k1e2i31pc6y",n:"プロトタイピングモデル",r:"",g:"プロト（最初の）タイプ＝試作品を見せて確認",m:"早い段階で試作品（プロトタイプ）を作り、利用者に見てもらって要求を確かめます。",k:"「試作品」「利用者に確認」"}],
+ trap:"「利用者の要求がはっきりしないので、試作品で確認する」のはプロトタイピングモデルです。"},
+{cat:"開発技術",syl:[12,"システム開発技術",45],title:"単体テスト・結合テスト・システムテスト・運用テスト",how:"<strong>何を単位に、誰が確かめるか</strong>で見分けます。",
+ terms:[
+  {key:"te-1rw9r521ynkgfi",n:"単体テスト",r:"",g:"単体テストは、部品ひとりずつの健康診断",m:"プログラムの部品（モジュール）を1つずつ確かめます。",k:"「モジュール単位」"},
+  {key:"te-1755zbpm938sx",n:"結合テスト",r:"",g:"結合テストは、手をつないで受け渡しチェック",m:"部品を組み合わせて、部品どうしのデータの受け渡し（インタフェース）が正しいかを確かめます。",k:"「モジュール間のインタフェース」"},
+  {key:"te-1xi451h1nz8c3x",n:"システムテスト",r:"",g:"システムテストは、開発チームの全体リハーサル",m:"システム全体が、決めた要件（機能や性能）を満たしているかを開発者側で確かめます。",k:"「システム要件を満たすか」「性能テスト」"},
+  {key:"te-1da2tketm26r0",n:"運用テスト",r:"",g:"運用テストは、お客さまの試乗会",m:"実際に使う人（利用者）が、本番に近い環境と業務の流れで確かめます。",k:"「利用者が実施」「実際の業務」"}],
+ trap:"運用テストを中心になって行うのは、開発者ではなく利用者です。"},
+{cat:"開発技術",syl:[12,"システム開発技術",45],title:"スタブ・ドライバ",how:"<strong>下の部品の代わりか、上の部品の代わりか</strong>で見分けます。",
+ terms:[
+  {key:"te-1da4d4m1vlm24y",n:"スタブ",r:"",g:"下の部品の代役（トップダウンで使う）",m:"上の部品から順にテストするとき、まだできていない下位の部品の代わりをする仮のプログラムです。",k:"「下位モジュールの代替」「トップダウンテスト」"},
+  {key:"te-1rmcqsyzq1kcq",n:"ドライバ",r:"",g:"上から運転（ドライブ）してくれる代役",m:"下の部品から順にテストするとき、まだできていない上位の部品の代わりに、下位の部品を呼び出す仮のプログラムです。",k:"「上位モジュールの代替」「ボトムアップテスト」"}],
+ trap:"トップダウンテストで使うのはスタブ、ボトムアップテストで使うのはドライバです。"}
+];
+const DECK="technology";
+const PREFIX="te";
+const SYL=[];
+function hid(s){let a=5381,b=52711;for(const ch of s){const c=ch.codePointAt(0);a=(a*33)^c;b=(b*31+c)|0;a|=0}return (a>>>0).toString(36)+(b>>>0).toString(36)}
+const SYL_URL="https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kpe-att/syllabus_fe_ver9_2.pdf";
+DATA.forEach((d,i)=>{d.syl=d.syl||SYL[i];d.no=i+1;d.terms.forEach(t=>t.id=t.key||PREFIX+"-"+hid(d.title+"|"+t.n))});
+const cats=["すべて",...new Set(DATA.map(d=>d.cat))];
+let cur="すべて",onlyMiss=false,mode="local",col=null;
+const st={};
+const LS="goro-"+PREFIX;
+try{Object.assign(st,JSON.parse(localStorage.getItem(LS)||"{}"))}catch(e){}
+const $=id=>document.getElementById(id);
+const chips=$("chips"),deck=$("deck");
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const VALID=new Set(DATA.flatMap(d=>d.terms.map(t=>t.id)));
+const OLD=new RegExp("^"+PREFIX+"-\\d{2}-\\d+$");
+function missCount(){return Object.keys(st).filter(k=>VALID.has(k)&&st[k]&&st[k].miss).length}
+function updateCount(){$("misscount").textContent=missCount()}
+function setMode(m){mode=m;$("savewhere").textContent=m==="cloud"?"保存先：あなた専用（ほかの人には見えません）":"保存先：この端末のブラウザのみ"}
+function renderChips(){chips.innerHTML=cats.map(c=>`<button class="chip" type="button" aria-pressed="${c===cur}" data-c="${c}">${c}</button>`).join("")}
+function termHTML(t){
+  const s=st[t.id]||{};const memo=s.memo||"";
+  return `<section class="term${s.miss?" missed":""}" tabindex="0" data-id="${t.id}">
+    <div class="term-top"><h3>${esc(t.n)}${t.r?`<small>${esc(t.r)}</small>`:""}</h3>
+      <label class="miss"><input type="checkbox" id="m-${t.id}" ${s.miss?"checked":""}><span>思い出せなかった</span></label></div>
+    <div class="row"><span class="lab l-goro">語呂</span><span class="goro">${esc(t.g)}</span></div>
+    <div class="row mean"><span class="lab l-mean">意味</span><span>${esc(t.m)}</span></div>
+    <div class="row"><span class="lab l-key">キーワード</span><span class="key">${esc(t.k)}</span></div>
+    <details class="memo"><summary>メモ<span class="has" ${memo?"":"hidden"}>入力済み</span></summary>
+      <textarea id="t-${t.id}" rows="3" maxlength="500" placeholder="自分用のメモ（覚え方、まちがえた理由など）">${esc(memo)}</textarea>
+      <small class="saved" aria-live="polite"></small></details>
+  </section>`}
+function render(){
+  const list=DATA.filter(d=>cur==="すべて"||d.cat===cur)
+    .map(d=>({...d,terms:onlyMiss?d.terms.filter(t=>st[t.id]&&st[t.id].miss):d.terms})).filter(d=>d.terms.length);
+  deck.innerHTML=list.length?list.map(d=>`
+  <article class="card">
+    <div class="card-head">
+      <div class="meta"><b>${d.cat}</b><span>No.${String(d.no).padStart(2,"0")} / ${String(DATA.length).padStart(2,"0")}</span></div>
+      <h2>${esc(d.title)}</h2>
+      <p class="how">見分け方：${d.how}</p>
+    </div>
+    <div class="terms">${d.terms.map(termHTML).join("")}</div>
+    <p class="trap"><span class="lab">ひっかけ</span><span>${esc(d.trap)}</span></p>
+    <a class="syl" href="${SYL_URL}" target="_blank" rel="noopener noreferrer">シラバスで確認：中分類${d.syl[0]} ${d.syl[1]}（p.${d.syl[2]}〜）<span aria-hidden="true">↗</span></a>
+  </article>`).join(""):`<p class="empty">${onlyMiss?"「思い出せなかった」にチェックした単語はまだありません。":"この分類の単語はありません。"}</p>`;
+  updateCount();
+}
+function saveLocal(){try{localStorage.setItem(LS,JSON.stringify(st))}catch(e){}}
+const timers={};
+async function save(id){
+  const v=st[id]||{miss:false,memo:""};
+  if(mode==="cloud"&&col){
+    try{await col.doc(id).set({miss:!!v.miss,memo:v.memo||""});return true}
+    catch(e){setMode("local")}
+  }
+  saveLocal();return true;
+}
+deck.addEventListener("change",e=>{
+  const cb=e.target.closest('.miss input');if(!cb)return;
+  const id=cb.closest(".term").dataset.id;
+  st[id]={...(st[id]||{}),miss:cb.checked};
+  cb.closest(".term").classList.toggle("missed",cb.checked);
+  updateCount();save(id);
+  if(onlyMiss&&!cb.checked)render();
+});
+deck.addEventListener("input",e=>{
+  const ta=e.target.closest(".memo textarea");if(!ta)return;
+  const term=ta.closest(".term"),id=term.dataset.id;
+  st[id]={...(st[id]||{}),memo:ta.value};
+  term.querySelector(".has").hidden=!ta.value.trim();
+  const out=term.querySelector(".saved");out.textContent="入力中…";
+  clearTimeout(timers[id]);
+  timers[id]=setTimeout(async()=>{await save(id);out.textContent="保存しました"},800);
+});
+chips.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;cur=b.dataset.c;renderChips();render()});
+const q=$("quiz");
+q.addEventListener("change",()=>{document.body.classList.toggle("quiz",q.checked);document.querySelectorAll(".term.open").forEach(x=>x.classList.remove("open"))});
+$("onlymiss").addEventListener("change",e=>{onlyMiss=e.target.checked;render()});
+deck.addEventListener("click",e=>{
+  if(e.target.closest("input,textarea,summary,a,label,details"))return;
+  const t=e.target.closest(".term");if(t&&document.body.classList.contains("quiz"))t.classList.toggle("open")});
+deck.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("term")&&document.body.classList.contains("quiz")){e.preventDefault();e.target.classList.toggle("open")}});
+Object.keys(st).forEach(k=>{if(OLD.test(k))delete st[k]});saveLocal();
+setMode("local");renderChips();render();
+$("totals").textContent=DATA.length+"テーマ／"+DATA.reduce((n,d)=>n+d.terms.length,0)+"項目";
+(async()=>{
+  try{
+    const [db,user]=await Promise.all([window.claude?.use("db"),window.claude?.use("user")]);
+    if(!db||!user)return;
+    const uid=await user.id();if(!uid)return;
+    col=db.collection("data/users/"+uid);
+    let first=true;
+    col.onSnapshot(snap=>{
+      let missChanged=false;
+      if(first){
+        // 端末に残っていた記録をクラウドへ引き継ぐ（クラウドに無いものだけ）
+        const have=new Set(snap.docs.map(d=>d.id));
+        Object.keys(st).forEach(k=>{if(VALID.has(k)&&!have.has(k)&&st[k]&&(st[k].miss||st[k].memo))col.doc(k).set({miss:!!st[k].miss,memo:st[k].memo||""}).catch(()=>{})});
+        setMode("cloud");first=false;
+      }
+      snap.docs.forEach(d=>{
+        if(OLD.test(d.id)){col.doc(d.id).delete().catch(()=>{});return}
+        const v=d.data()||{};const old=st[d.id]||{};
+        if(!!old.miss!==!!v.miss)missChanged=true;
+        st[d.id]={miss:!!v.miss,memo:typeof v.memo==="string"?v.memo:""};
+        const term=deck.querySelector(`.term[data-id="${d.id}"]`);
+        if(term){
+          term.querySelector(".miss input").checked=!!v.miss;term.classList.toggle("missed",!!v.miss);
+          const ta=term.querySelector("textarea");
+          if(document.activeElement!==ta&&!timers[d.id+"busy"])ta.value=st[d.id].memo;
+          term.querySelector(".has").hidden=!st[d.id].memo.trim();
+        }
+      });
+      updateCount();
+      if(onlyMiss&&missChanged&&!deck.contains(document.activeElement))render();
+    },()=>setMode("local"));
+  }catch(e){}
+})();
+</script>
+
+</body></html>
